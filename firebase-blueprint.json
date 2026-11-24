@@ -1,0 +1,385 @@
+{
+  "entities": {
+    "User": {
+      "title": "User",
+      "description": "Authenticated customer profile and shipping details.",
+      "type": "object",
+      "properties": {
+        "uid": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[a-zA-Z0-9_\\-]+$"
+        },
+        "displayName": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 80
+        },
+        "email": {
+          "type": "string",
+          "format": "email",
+          "minLength": 3,
+          "maxLength": 120
+        },
+        "phone": {
+          "type": "string",
+          "maxLength": 30
+        },
+        "address": {
+          "type": "string",
+          "maxLength": 250
+        },
+        "city": {
+          "type": "string",
+          "maxLength": 80
+        },
+        "postalCode": {
+          "type": "string",
+          "maxLength": 20
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time"
+        }
+      },
+      "required": ["uid", "displayName", "email", "createdAt", "updatedAt"]
+    },
+    "Admin": {
+      "title": "Admin",
+      "description": "Store administrator record authorizing catalog and order management.",
+      "type": "object",
+      "properties": {
+        "uid": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[a-zA-Z0-9_\\-]+$"
+        },
+        "email": {
+          "type": "string",
+          "format": "email",
+          "minLength": 3,
+          "maxLength": 120
+        },
+        "grantedBy": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time"
+        }
+      },
+      "required": ["uid", "email", "grantedBy", "createdAt"]
+    },
+    "Product": {
+      "title": "Product",
+      "description": "Store catalog product with real-time inventory stock and specifications.",
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "minLength": 2,
+          "maxLength": 120
+        },
+        "slug": {
+          "type": "string",
+          "minLength": 2,
+          "maxLength": 140,
+          "pattern": "^[a-z0-9\\-]+$"
+        },
+        "sku": {
+          "type": "string",
+          "minLength": 2,
+          "maxLength": 40,
+          "pattern": "^[A-Z0-9\\-]+$"
+        },
+        "category": {
+          "type": "string",
+          "enum": ["ladies-bags", "mens-bags", "laptop-bags", "clothes", "kids-bags", "toys"]
+        },
+        "price": {
+          "type": "number"
+        },
+        "compareAtPrice": {
+          "type": "number"
+        },
+        "stock": {
+          "type": "integer"
+        },
+        "description": {
+          "type": "string",
+          "minLength": 10,
+          "maxLength": 1200
+        },
+        "material": {
+          "type": "string",
+          "maxLength": 120
+        },
+        "dimensions": {
+          "type": "string",
+          "maxLength": 100
+        },
+        "colors": {
+          "type": "array",
+          "description": "Available finish/color options (max 8)."
+        },
+        "imageUrl": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 500
+        },
+        "featured": {
+          "type": "boolean"
+        },
+        "active": {
+          "type": "boolean"
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time"
+        }
+      },
+      "required": [
+        "name",
+        "slug",
+        "sku",
+        "category",
+        "price",
+        "stock",
+        "description",
+        "material",
+        "dimensions",
+        "colors",
+        "imageUrl",
+        "featured",
+        "active",
+        "createdAt",
+        "updatedAt"
+      ]
+    },
+    "Review": {
+      "title": "Review",
+      "description": "Verified customer review and rating for a product.",
+      "type": "object",
+      "properties": {
+        "productId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[a-zA-Z0-9_\\-]+$"
+        },
+        "userId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[a-zA-Z0-9_\\-]+$"
+        },
+        "authorName": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 80
+        },
+        "rating": {
+          "type": "integer"
+        },
+        "title": {
+          "type": "string",
+          "minLength": 2,
+          "maxLength": 100
+        },
+        "comment": {
+          "type": "string",
+          "minLength": 5,
+          "maxLength": 1000
+        },
+        "verifiedPurchase": {
+          "type": "boolean"
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time"
+        }
+      },
+      "required": [
+        "productId",
+        "userId",
+        "authorName",
+        "rating",
+        "title",
+        "comment",
+        "verifiedPurchase",
+        "createdAt",
+        "updatedAt"
+      ]
+    },
+    "Order": {
+      "title": "Order",
+      "description": "Customer purchase order with payment metadata and live fulfillment tracking.",
+      "type": "object",
+      "properties": {
+        "orderNumber": {
+          "type": "string",
+          "minLength": 6,
+          "maxLength": 24,
+          "pattern": "^KG-[A-Z0-9]+$"
+        },
+        "userId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[a-zA-Z0-9_\\-]+$"
+        },
+        "customerName": {
+          "type": "string",
+          "minLength": 2,
+          "maxLength": 80
+        },
+        "customerEmail": {
+          "type": "string",
+          "format": "email",
+          "minLength": 3,
+          "maxLength": 120
+        },
+        "customerPhone": {
+          "type": "string",
+          "minLength": 5,
+          "maxLength": 30
+        },
+        "shippingAddress": {
+          "type": "string",
+          "minLength": 5,
+          "maxLength": 250
+        },
+        "shippingCity": {
+          "type": "string",
+          "minLength": 2,
+          "maxLength": 80
+        },
+        "shippingPostalCode": {
+          "type": "string",
+          "minLength": 3,
+          "maxLength": 20
+        },
+        "paymentMethod": {
+          "type": "string",
+          "enum": ["card", "upi", "cod"]
+        },
+        "paymentStatus": {
+          "type": "string",
+          "enum": ["paid", "pending_cod", "refunded"]
+        },
+        "paymentRef": {
+          "type": "string",
+          "minLength": 2,
+          "maxLength": 64
+        },
+        "items": {
+          "type": "array",
+          "description": "Ordered line items (1 to 25 items)."
+        },
+        "subtotal": {
+          "type": "number"
+        },
+        "shippingFee": {
+          "type": "number"
+        },
+        "tax": {
+          "type": "number"
+        },
+        "total": {
+          "type": "number"
+        },
+        "status": {
+          "type": "string",
+          "enum": ["placed", "confirmed", "packed", "shipped", "out_for_delivery", "delivered", "cancelled"]
+        },
+        "trackingCode": {
+          "type": "string",
+          "maxLength": 40
+        },
+        "carrier": {
+          "type": "string",
+          "maxLength": 60
+        },
+        "estimatedDelivery": {
+          "type": "string",
+          "maxLength": 40
+        },
+        "statusNote": {
+          "type": "string",
+          "maxLength": 200
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time"
+        }
+      },
+      "required": [
+        "orderNumber",
+        "userId",
+        "customerName",
+        "customerEmail",
+        "customerPhone",
+        "shippingAddress",
+        "shippingCity",
+        "shippingPostalCode",
+        "paymentMethod",
+        "paymentStatus",
+        "paymentRef",
+        "items",
+        "subtotal",
+        "shippingFee",
+        "tax",
+        "total",
+        "status",
+        "trackingCode",
+        "carrier",
+        "estimatedDelivery",
+        "statusNote",
+        "createdAt",
+        "updatedAt"
+      ]
+    }
+  },
+  "firestore": {
+    "/users/{userId}": {
+      "schema": { "$ref": "#/entities/User" },
+      "description": "Private customer profile and saved shipping information."
+    },
+    "/admins/{adminId}": {
+      "schema": { "$ref": "#/entities/Admin" },
+      "description": "Admin role directory managed strictly by store administrators."
+    },
+    "/products/{productId}": {
+      "schema": { "$ref": "#/entities/Product" },
+      "description": "Storefront product catalog with live stock counts."
+    },
+    "/products/{productId}/reviews/{reviewId}": {
+      "schema": { "$ref": "#/entities/Review" },
+      "description": "Customer reviews attached to an existing parent product."
+    },
+    "/orders/{orderId}": {
+      "schema": { "$ref": "#/entities/Order" },
+      "description": "Customer orders with payment details and real-time tracking status."
+    }
+  }
+}

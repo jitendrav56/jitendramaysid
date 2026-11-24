@@ -1,0 +1,6 @@
+{
+  "name": "Kova Goods — Bags, Apparel & Family Store",
+  "description": "Shop ladies bags, mens bags, laptop bags, apparel, kids backpacks, and heirloom toys with secure checkout, verified reviews, real-time order tracking, and live inventory management.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
